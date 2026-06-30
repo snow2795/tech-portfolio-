@@ -1,0 +1,24 @@
+# Activity Log
+
+Short entries for diagnostic/config work that doesn't warrant a full case study, 
+but demonstrates ongoing technical problem-solving.
+
+---
+
+## Gong Engage Flows visibility — permission set gap
+**Problem:** A user reported the Engage Flows quick link wasn't visible on Contact 
+records, despite it existing on admin views — initial ask read as a simple layout 
+change ("add the link").
+
+**Diagnosis:** Investigated via SOQL/Tooling API across profile, page layout 
+assignment, Lightning Record Page assignment, and permission sets. Root cause: 
+the user had zero Gong-related permission sets assigned. A dedicated permission 
+set existed for this exact feature but had only been rolled out to a service 
+account, not end users — the Lightning component was silently hiding itself 
+without the right permission, rather than erroring.
+
+**Resolution:** Assigned the appropriate permission set based on the user's role 
+and existing access patterns of similar users.
+
+**Takeaway:** Surfaced a gap between feature deployment and permission rollout — 
+the underlying access was never extended to the team that needed it.
